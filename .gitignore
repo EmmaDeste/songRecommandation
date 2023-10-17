@@ -1,0 +1,8 @@
+.env
+node_modules
+venv
+__pycache__
+venv/pyvenv.cfg
+.xlsx
+.csv
+generated_files

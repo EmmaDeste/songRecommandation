@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet</title>
+    <link rel="stylesheet" href="/static/css/home.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-Ls537K3bYqVlL3Nl/5AExotj5nu1CAyJxjwFf3Fj3l5k1D9VdHJ7BfF5v5zZ8g5k6" crossorigin="anonymous"></script>
+    
+</head>
+<body>
+    <header>
+        <div class="header fixed-top">
+            <a href="/" class="logo">
+                <img class="logo" src="" alt="CompanyLogo">
+            </a>
+            <div class="header-right header_padding">
+              <a class="active" href="/">Home</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="bg-image" style="background-image: url(/static/images/background.jpg);height:90vh">
+            <div class="container" id="content" style="height: 80vh;">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <script>
+                            alert('{{ messages[0] }}');
+                        </script>
+                    {% endif %}
+                {% endwith %}
+                
+                <form class="search-form form-inline d-flex align-items-center flex-column" action="/result" method="POST">
+                    <h2>Please select your favorite song(s):</h2>
+                    <div class="form-group">
+                        <label for="artiste">Select a first Song (mandatory):</label>
+                        <input type="text" class="form-control" id="song1" name="song1" list="list_song" required>
+                        <datalist id="list_song">
+                            {% for song in songs %}
+                                <option>{{ song.artist }} - {{ song.title }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="chanson">Second choice (mandatory):</label>
+                        <input type="text" class="form-control" id="song2" name="song2" list="list_song" required>
+                        <datalist id="list_song">
+                            {% for song in songs %}
+                                <option>{{ song.artist }} - {{ song.title }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="chanson">Thrid choice (optional):</label>
+                        <input type="text" class="form-control" id="song3" name="song3" list="list_song">
+                        <datalist id="list_song">
+                            {% for song in songs %}
+                                <option>{{ song.artist }} - {{ song.title }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <button type="submit" value="SEND" class="btn mt-3" style="color: white; background: rgb(255, 87, 51);" id="submitSelection">Submit</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer_content fixed-bottom">
+            <p>&copy; 2023 OnSaitPas. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
+
+<script src="javascript.js">
+    var song1 = document.getElementById('song1');
+    var song2 = document.getElementById('song2');
+    var song3 = document.getElementById('song3');
+
+    song1.addEventListener('input', function () {
+        if (song1.value.trim() !== '') {
+            song2.disabled = false;
+        } else {
+            song2.disabled = true;
+            song3.disabled = true;
+        }
+    });
+
+    song2.addEventListener('input', function () {
+        if (song2.value.trim() !== '') {
+            song3.disabled = false;
+        } else {
+            song3.disabled = true;
+        }
+    });
+</script>
