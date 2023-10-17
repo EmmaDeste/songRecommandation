@@ -29,6 +29,10 @@ class Songs(db.Model):
     topic1 = db.Column(db.String(50), nullable=False)
     topic2 = db.Column(db.String(50), nullable=False)
     topic3 = db.Column(db.String(50), nullable=False)
+    topic4 = db.Column(db.String(50), nullable=False)
+    topic5 = db.Column(db.String(50), nullable=False)
+    topic6 = db.Column(db.String(50), nullable=False)
+    topic7 = db.Column(db.String(50), nullable=False)
 
 ################################################################ Vérification de la connexion à la base de données #################################################################
 with app.app_context():
