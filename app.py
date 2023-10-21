@@ -9,10 +9,12 @@ app = Flask(__name__)
 app.secret_key = 'DaTaCaMP'
 
 ################################################################ Configuration de la connexion à la base de données #################################################################
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'projet_data_camp'
+# données fournies par Azure lors de la création du service web app sur Azure
+app.config['MYSQL_HOST'] = 'localhost'  # /!\ commenter la ligne ci-dessous pour faire tourner en local
+#app.config['MYSQL_HOST'] = 'groovegenius-server'
+app.config['MYSQL_USER'] = 'loprdfhypz'
+app.config['MYSQL_PASSWORD'] = '15N580424P852440$'
+app.config['MYSQL_DB'] = 'groovegenius-database'
 
 ################################################################ Définition de l'URL de connexion à la base de données #################################################################
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{app.config['MYSQL_USER']}:{app.config['MYSQL_PASSWORD']}@{app.config['MYSQL_HOST']}/{app.config['MYSQL_DB']}"
@@ -24,15 +26,14 @@ class Songs(db.Model):
     __tablename__ = 'songs'
     artist = db.Column(db.String(255), nullable=False)
     title = db.Column(db.String(255), primary_key=True, nullable=False)
-    per_pos = db.Column(db.DECIMAL(5, 2), nullable=False)
-    per_neg = db.Column(db.DECIMAL(5, 2), nullable=False)
-    topic1 = db.Column(db.String(50), nullable=False)
-    topic2 = db.Column(db.String(50), nullable=False)
-    topic3 = db.Column(db.String(50), nullable=False)
-    topic4 = db.Column(db.String(50), nullable=False)
-    topic5 = db.Column(db.String(50), nullable=False)
-    topic6 = db.Column(db.String(50), nullable=False)
-    topic7 = db.Column(db.String(50), nullable=False)
+    album = db.Column(db.String(255), nullable=False)
+    lyrics = db.Column(db.String(255), nullable=False)
+    dim1 = db.Column(db.String(50), nullable=False)
+    score1 = db.Column(db.Float, nullable=False)
+    dim2 = db.Column(db.String(50), nullable=False)
+    score2 = db.Column(db.Float, nullable=False)
+    dim3 = db.Column(db.String(50), nullable=False)
+    score3 = db.Column(db.Float, nullable=False)
 
 ################################################################ Vérification de la connexion à la base de données #################################################################
 with app.app_context():
