@@ -99,6 +99,9 @@ def result():
         # Redirect to home page
         return redirect(url_for('home'))
 
+@app.route('/test')
+def test():
+    return "<p> Bonjour, Emma, Noa, Camille ;-) </p>"
 
 if __name__ == "__main__":
     app.run()
