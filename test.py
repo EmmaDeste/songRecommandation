@@ -494,7 +494,7 @@ eig = pd.DataFrame(
         "% cum. var. expliquée" : np.round(np.cumsum(pca.explained_variance_ratio_) * 100)
     }
 )
-# print(eig)
+print(eig)
 
 df_pca = pca.transform(df_feeling)
 
@@ -532,11 +532,11 @@ for k in range(1, 21):
     kmeans.fit(df_forClustering)
     sse.append(kmeans.inertia_)
 # visualize results
-# plt.plot(range(1, 21), sse)
-# plt.xticks(range(1, 21))
-# plt.xlabel("Number of Clusters")
-# plt.ylabel("SSE")
-# plt.show()
+plt.plot(range(1, 21), sse)
+plt.xticks(range(1, 21))
+plt.xlabel("Number of Clusters")
+plt.ylabel("SSE")
+plt.show()
 
 kmeans = KMeans(n_clusters=5).fit(df_forClustering)
 
