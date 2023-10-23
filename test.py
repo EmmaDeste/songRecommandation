@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
+import pickle
 
 joy_words = [
     "happiness",
@@ -787,3 +788,6 @@ def get_song(songA, songB, songC = None):
             song3 = song3.values[0]
             list_song = [song1, song2, song3]
             return(list_song)
+
+with open('DF Song', 'wb') as file_pickle:
+    pickle.dump(final_df, file_pickle)
