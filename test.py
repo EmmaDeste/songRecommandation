@@ -494,7 +494,7 @@ eig = pd.DataFrame(
         "% cum. var. expliquée" : np.round(np.cumsum(pca.explained_variance_ratio_) * 100)
     }
 )
-print(eig)
+#print(eig)
 
 df_pca = pca.transform(df_feeling)
 
@@ -536,7 +536,7 @@ plt.plot(range(1, 21), sse)
 plt.xticks(range(1, 21))
 plt.xlabel("Number of Clusters")
 plt.ylabel("SSE")
-plt.show()
+#plt.show()
 
 kmeans = KMeans(n_clusters=5).fit(df_forClustering)
 
@@ -653,3 +653,135 @@ for i in range(len(final_df['Dimension 3'])):
 # Dim 6 : Hope
 # Dim 7 : Fear
 print(final_df)
+
+
+def get_song(songA, songB, songC = None):
+    if songC == None:
+        if songA == songB:
+            return songA
+        else: 
+            A = final_df.loc[final_df['Name '] == songA]
+            B = final_df.loc[final_df["Name "] == songB]
+            print(A, '\n', B)
+            avg_dim_1 = (float(A['Score 1']) + float(B['Score 1']))/2
+            avg_dim_2 = (float(A['Score 2']) + float(B['Score 2']))/2
+            avg_dim_3 = (float(A['Score 3']) + float(B['Score 3']))/2
+            
+            valeur_proche1 = None
+            valeur_proche2 = None
+            valeur_proche3 = None
+            diff_abs1 = float('inf')
+            diff_abs2 = float('inf')
+            diff_abs3 = float('inf')
+            
+            for i in range(len(final_df['Score 1'])):
+                val = float(final_df.loc[i, 'Score 1'])
+                diff = abs(avg_dim_1 - float(val))
+                if diff < diff_abs1:
+                    valeur_proche1 = float(val)
+                    diff_abs1 = diff
+            
+            for i in range(len(final_df['Score 2'])):
+                val = float(final_df.loc[i, 'Score 2'])
+                diff = abs(avg_dim_2 - float(i))
+                if diff < diff_abs2:
+                    valeur_proche2 = float(val)
+                    diff_abs2 = diff
+            
+            for i in range(len(final_df['Score 3'])):
+                val = float(final_df.loc[i, 'Score 3'])
+                diff = abs(avg_dim_3 - float(i))
+                if diff < diff_abs3:
+                    valeur_proche3 = float(val)
+                    diff_abs3 = diff
+            
+            idx1 = final_df.loc[final_df['Score 1'] == valeur_proche1]
+            idx2 = final_df.loc[final_df['Score 2'] == valeur_proche2]
+            idx3 = final_df.loc[final_df['Score 3'] == valeur_proche3]
+           
+            song1 = str(idx1['Name '])
+            song2 = str(idx2['Name '])
+            song3 = str(idx3['Name '])
+            
+            
+            if song1 == song2 and song1 != song3:
+                return idx1['Name ']
+            elif song1 == song2 and song1 == song3:
+                return idx1['Name ']
+            elif song1 == song3 and song1 != song2:
+                return idx1['Name ']
+            elif song1 == song3 and song1 == song2:
+                return idx1['Name ']
+            elif song2 == song3 and song1 != song2:
+                return idx2['Name ']
+            elif song2 == song3 and song1 == song2:
+                return idx2['Name ']
+            else:
+                return idx1['Name ']
+    else:
+        if songA == songB and songA == songC:
+            return songA
+        else: 
+            A = final_df.loc[final_df['Name '] == songA]
+            B = final_df.loc[final_df["Name "] == songB]
+            C = final_df.loc[final_df["Name "] == songC]
+            
+            avg_dim_1 = (float(A['Score 1']) + float(B['Score 1']) + float(C['Score 1']))/3
+            avg_dim_2 = (float(A['Score 2']) + float(B['Score 2']) + float(C['Score 2']))/3
+            avg_dim_3 = (float(A['Score 3']) + float(B['Score 3']) + float(C['Score 3']))/3
+            print('########################################')
+            print(avg_dim_1, avg_dim_2, avg_dim_3)
+            print('########################################')
+            valeur_proche1 = None
+            valeur_proche2 = None
+            valeur_proche3 = None
+            diff_abs1 = float('inf')
+            diff_abs2 = float('inf')
+            diff_abs3 = float('inf')
+            
+            for i in range(len(final_df['Score 1'])):
+                val = float(final_df.loc[i, 'Score 1'])
+                diff = abs(avg_dim_1 - float(val))
+                if diff < diff_abs1:
+                    valeur_proche1 = float(val)
+                    diff_abs1 = diff
+            
+            for i in range(len(final_df['Score 2'])):
+                val = float(final_df.loc[i, 'Score 2'])
+                diff = abs(avg_dim_2 - float(i))
+                if diff < diff_abs2:
+                    valeur_proche2 = float(val)
+                    diff_abs2 = diff
+            
+            for i in range(len(final_df['Score 3'])):
+                val = float(final_df.loc[i, 'Score 3'])
+                diff = abs(avg_dim_3 - float(i))
+                if diff < diff_abs3:
+                    valeur_proche3 = float(val)
+                    diff_abs3 = diff
+            
+            idx1 = final_df.loc[final_df['Score 1'] == valeur_proche1]
+            idx2 = final_df.loc[final_df['Score 2'] == valeur_proche2]
+            idx3 = final_df.loc[final_df['Score 3'] == valeur_proche3]
+            print(valeur_proche1, "\n", valeur_proche2, "\n", valeur_proche3)
+            print('##############################################')
+            
+            song1 = str(idx1['Name '])
+            song2 = str(idx2['Name '])
+            song3 = str(idx3['Name '])
+            print(song1, "\n", song2, "\n", song3)
+            print('##############################################')
+            if song1 == song2 and song1 != song3:
+                return idx1['Name ']
+            elif song1 == song2 and song1 == song3:
+                return idx1['Name ']
+            elif song1 == song3 and song1 != song2:
+                return idx1['Name ']
+            elif song1 == song3 and song1 == song2:
+                return idx1['Name ']
+            elif song2 == song3 and song1 != song2:
+                return idx2['Name ']
+            elif song2 == song3 and song1 == song2:
+                return idx2['Name ']
+            else:
+                return idx1['Name ']
