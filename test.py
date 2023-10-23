@@ -703,21 +703,7 @@ def get_song(songA, songB, songC = None):
             song2 = str(idx2['Name '])
             song3 = str(idx3['Name '])
             
-            
-            if song1 == song2 and song1 != song3:
-                return idx1['Name ']
-            elif song1 == song2 and song1 == song3:
-                return idx1['Name ']
-            elif song1 == song3 and song1 != song2:
-                return idx1['Name ']
-            elif song1 == song3 and song1 == song2:
-                return idx1['Name ']
-            elif song2 == song3 and song1 != song2:
-                return idx2['Name ']
-            elif song2 == song3 and song1 == song2:
-                return idx2['Name ']
-            else:
-                return idx1['Name ']
+            return(song1, song2, song3)
     else:
         if songA == songB and songA == songC:
             return songA
@@ -771,17 +757,4 @@ def get_song(songA, songB, songC = None):
             song3 = str(idx3['Name '])
             print(song1, "\n", song2, "\n", song3)
             print('##############################################')
-            if song1 == song2 and song1 != song3:
-                return idx1['Name ']
-            elif song1 == song2 and song1 == song3:
-                return idx1['Name ']
-            elif song1 == song3 and song1 != song2:
-                return idx1['Name ']
-            elif song1 == song3 and song1 == song2:
-                return idx1['Name ']
-            elif song2 == song3 and song1 != song2:
-                return idx2['Name ']
-            elif song2 == song3 and song1 == song2:
-                return idx2['Name ']
-            else:
-                return idx1['Name ']
+            return (song1, song2, song3)
