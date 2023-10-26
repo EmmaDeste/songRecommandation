@@ -123,8 +123,7 @@ def result():
                 #
                 # code to analyse the preferencies
                 #
-                df = pk.load('Df_song.pkl')
-                list_song = get_song(df) #penser à changer une fois l'importation de df faite
+                list_song = get_song(T1, T2, T3) #penser à changer une fois l'importation de df faite
                 song_recomended1 = list_song[0]
                 song_recomended2 = list_song[1]
                 song_recomended3 = list_song[2]
@@ -144,8 +143,7 @@ def result():
                 # code to analyse the preferencies
                 #
                 
-                df = pk.load('Df_song.pkl')
-                list_song = get_song(df) #penser à changer une fois l'importation de df faite
+                list_song = get_song(T1, T2) #penser à changer une fois l'importation de df faite
                 song_recomended1 = list_song[0]
                 song_recomended2 = list_song[1]
                 song_recomended3 = list_song[2]
