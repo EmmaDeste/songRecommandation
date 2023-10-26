@@ -34,9 +34,9 @@
                 {% endwith %}
                 
                 <form class="search-form form-inline d-flex align-items-center flex-column" action="/result" method="POST">
-                    <h2>Please select your favorite song(s):</h2>
+                    <h2>Please select your favorite songs: 🧡 </h2>
                     <div class="form-group">
-                        <label for="artiste">Select a first Song (mandatory):</label>
+                        <label for="artiste">First song 🎵</label>
                         <input type="text" class="form-control" id="song1" name="song1" list="list_song" required>
                         <datalist id="list_song">
                             {% for song in songs %}
@@ -45,7 +45,7 @@
                         </datalist>
                     </div>
                     <div class="form-group">
-                        <label for="chanson">Second choice (mandatory):</label>
+                        <label for="chanson">Second song 🎶</label>
                         <input type="text" class="form-control" id="song2" name="song2" list="list_song" required>
                         <datalist id="list_song">
                             {% for song in songs %}
@@ -54,7 +54,7 @@
                         </datalist>
                     </div>
                     <div class="form-group">
-                        <label for="chanson">Thrid choice (optional):</label>
+                        <label for="chanson">Third song (optional)</label>
                         <input type="text" class="form-control" id="song3" name="song3" list="list_song">
                         <datalist id="list_song">
                             {% for song in songs %}
