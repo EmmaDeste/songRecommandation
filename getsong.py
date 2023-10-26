@@ -134,6 +134,6 @@ def get_song(songA, songB, songC = None):
             
             song1 = a1 + ' - ' + s1
             song2 = a2 + ' - ' + s2
-            song3 = a3 + ' - ' + a3
+            song3 = a3 + ' - ' + s3
             list_song = [song1, song2, song3]
             return(list_song)
