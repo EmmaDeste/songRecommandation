@@ -12,8 +12,8 @@ app.secret_key = 'DaTaCaMP'
 
 ################################################################ Configuration de la connexion à la base de données #################################################################
 # données fournies par Azure lors de la création du service web app sur Azure
-app.config['MYSQL_HOST'] = 'localhost'  # /!\ commenter la ligne ci-dessous pour faire tourner en local
-#app.config['MYSQL_HOST'] = 'groovegenius-server'
+#app.config['MYSQL_HOST'] = 'localhost'  # /!\ commenter la ligne ci-dessous pour faire tourner en local
+app.config['MYSQL_HOST'] = 'groovegenius-server'
 app.config['MYSQL_USER'] = 'loprdfhypz'
 app.config['MYSQL_PASSWORD'] = '15N580424P852440$'
 app.config['MYSQL_DB'] = 'groovegenius-database'
