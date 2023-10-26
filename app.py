@@ -37,6 +37,44 @@ class Songs(db.Model):
     dim3 = db.Column(db.String(50), nullable=False)
     score3 = db.Column(db.Float, nullable=False)
 
+import pandas as pd
+
+# Récupérez les données de la base de données en utilisant SQLAlchemy
+query = db.session.query(Songs)
+results = query.all()
+
+# Créez un dictionnaire pour stocker les données
+data = {
+    "artist": [],
+    "title": [],
+    "album": [],
+    "lyrics": [],
+    "dim1": [],
+    "score1": [],
+    "dim2": [],
+    "score2": [],
+    "dim3": [],
+    "score3": []
+}
+
+# Remplissez le dictionnaire avec les données de la base de données
+for song in results:
+    data["artist"].append(song.artist)
+    data["title"].append(song.title)
+    data["album"].append(song.album)
+    data["lyrics"].append(song.lyrics)
+    data["dim1"].append(song.dim1)
+    data["score1"].append(song.score1)
+    data["dim2"].append(song.dim2)
+    data["score2"].append(song.score2)
+    data["dim3"].append(song.dim3)
+    data["score3"].append(song.score3)
+
+# Convertissez le dictionnaire en un DataFrame
+df_test = pd.DataFrame(data)
+
+# Maintenant, df contient les données de la classe Songs sous forme de DataFrame
+print(df_test)
 # TODO: à supprimer
 # thanks to https://pythonbasics.org/flask-sqlalchemy/
 # Class to store the data
