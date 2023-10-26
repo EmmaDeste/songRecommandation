@@ -132,13 +132,18 @@ def result():
                 # code to analyse the preferencies
                 #
                 print("T3 exists")
-                list_song = get_song(T1, T2, T3) #penser à changer une fois l'importation de df faite
+                list_song = get_song(T1, T2, T3)
                 song_recomended1 = list_song[0]
                 song_recomended2 = list_song[1]
                 song_recomended3 = list_song[2]
                 # song_recomended1 = 'Camille - Le thé du matin'
+
+                #mood = emoji_identifier()
+
                 return render_template('result.html', reco1=song_recomended1, reco2=song_recomended2,
                                        reco3=song_recomended3, songs=songs)
+                # return render_template('result.html', reco1=song_recomended1, reco2=song_recomended2,
+                #                                        reco3=song_recomended3, songs=songs, mood=)
             else:
                 flash('One of the songs that you choose is not into our database', 'danger')
                 # Redirect to home page
@@ -157,8 +162,17 @@ def result():
                 song_recomended2 = list_song[1]
                 song_recomended3 = list_song[2]
                 # song_recomended1 = 'Camille - Juste pour deux chansons'
+
+                titres_donnes = [T1, T2]
+                songs_info = db.session.query(Songs.title, Songs.dim1, Songs.score1, Songs.dim2, Songs.score2, Songs.dim3, Songs.score3).filter(
+                    Songs.title.in_(titres_donnes)).all()
+                df = pd.DataFrame(songs_info, columns=['title', 'dim1', 'score1', 'dim2', 'score2', 'dim3', 'score3'])
+                print(df.head())
+                print(emoji_identifier(get_main_sentiment(df)))
+                emoji = emoji_identifier(get_main_sentiment(df))
+
                 return render_template('result.html', reco1=song_recomended1, reco2=song_recomended2,
-                                       reco3=song_recomended3, songs=songs)
+                                       reco3=song_recomended3, songs=songs, emoji=emoji)
             else:
                 flash('One of the songs that you choose is not into our database', 'danger')
                 # Redirect to home page
@@ -218,18 +232,45 @@ def table_to_df():
     df = pd.DataFrame(data)
     return df
 
-def emoji_identifier(df):
-    if df['dim1'] == 'Joy':
-        return True
-    if df['dim2'] == 'Anger':
-        return True
-    if df['dim3'] == 'Sadness':
-        return True
-    if df['dim4'] == 'Love':
-        return True
-    if df['dim5'] == 'Nostalgia':
-        return True
-    if df['dim6'] == 'Fear':
-        return True
-    if df['dim7'] == 'Hope':
-        return True
+def get_main_sentiment(df):
+    # Récupérer les noms des colonnes de sentiment et de score
+    sentiment_columns = [col for col in df.columns if col.startswith('dim')]
+    score_columns = [col for col in df.columns if col.startswith('score')]
+
+    # Créer un dictionnaire pour stocker les totaux des scores par sentiment
+    sentiment_totals = {}
+
+    # Parcourir les colonnes de sentiment et de score
+    for sentiment_col, score_col in zip(sentiment_columns, score_columns):
+        sentiment = df[sentiment_col]
+        score = df[score_col]
+
+        for s, sc in zip(sentiment, score):
+            if s in sentiment_totals:
+                sentiment_totals[s] += abs(sc)
+            else:
+                sentiment_totals[s] = sc
+
+    # Trouver le sentiment majoritaire en fonction des totaux des scores
+    main_sentiment = max(sentiment_totals, key=sentiment_totals.get)
+    print(main_sentiment)
+
+    return main_sentiment
+
+def emoji_identifier(sentiment):
+    if sentiment == 'Joy':
+        return "full of happiness 😄"
+    if sentiment == 'Anger':
+        return "angry currently... 😡"
+    if sentiment == 'Sadness':
+        return "sad presently... 🥺"
+    if sentiment == 'Love':
+        return "on the hype of love 🥰"
+    if sentiment == 'Nostalgia':
+        return "really nostalgic at the moment 😔"
+    if sentiment == 'Fear':
+        return "afraid of something right now 😨"
+    if sentiment == 'Hope':
+        return "hopeful for the future, sounds great 🤞"
+    else:
+        return "Come as you are!"
