@@ -37,61 +37,6 @@ class Songs(db.Model):
     dim3 = db.Column(db.String(50), nullable=False)
     score3 = db.Column(db.Float, nullable=False)
 
-import pandas as pd
-
-# Récupérez les données de la base de données en utilisant SQLAlchemy
-query = db.session.query(Songs)
-results = query.all()
-
-# Créez un dictionnaire pour stocker les données
-data = {
-    "artist": [],
-    "title": [],
-    "album": [],
-    "lyrics": [],
-    "dim1": [],
-    "score1": [],
-    "dim2": [],
-    "score2": [],
-    "dim3": [],
-    "score3": []
-}
-
-# Remplissez le dictionnaire avec les données de la base de données
-for song in results:
-    data["artist"].append(song.artist)
-    data["title"].append(song.title)
-    data["album"].append(song.album)
-    data["lyrics"].append(song.lyrics)
-    data["dim1"].append(song.dim1)
-    data["score1"].append(song.score1)
-    data["dim2"].append(song.dim2)
-    data["score2"].append(song.score2)
-    data["dim3"].append(song.dim3)
-    data["score3"].append(song.score3)
-
-# Convertissez le dictionnaire en un DataFrame
-df_test = pd.DataFrame(data)
-
-# Maintenant, df contient les données de la classe Songs sous forme de DataFrame
-print(df_test)
-# TODO: à supprimer
-# thanks to https://pythonbasics.org/flask-sqlalchemy/
-# Class to store the data
-class SongsData:
-    # Configuration de la BDD
-    def __init__(self, artist, title, album, lyrics, dim1, score1, dim2, score2, dim3, score3):
-        self.artist = artist
-        self.title = title
-        self.album = album
-        self.lyrics = lyrics
-        self.dim1 = dim1
-        self.score1 = score1
-        self.dim2 = dim2
-        self.score2 = score2
-        self.dim3 = dim3
-        self.score3 = score3
-
 ################################################################ Vérification de la connexion à la base de données #################################################################
 with app.app_context():
     try:
@@ -162,9 +107,9 @@ def result():
             print("song3 existe")
             A3, T3 = song3.split(' - ')
             # Verify that the songs are in the database :
-            exist1 = Songs.query.filter_by(artist=A1, title=T1).first()
-            exist2 = Songs.query.filter_by(artist=A2, title=T2).first()
-            exist3 = Songs.query.filter_by(artist=A3, title=T3).first()
+            exist1 = Songs.query.filter_by(artist=A1, title=T1)
+            exist2 = Songs.query.filter_by(artist=A2, title=T2)
+            exist3 = Songs.query.filter_by(artist=A3, title=T3)
             if (exist1 is not None) and (exist2 is not None) and (exist3 is not None):
                 print("T3 exists")
                 list_song = get_song(T1, T2, T3)
@@ -190,9 +135,9 @@ def result():
                 return redirect(url_for('home'))
         else:
             print("song3 n'existe pas")
-            exist1 = Songs.query.filter_by(artist=A1, title=T1).first()
+            exist1 = Songs.query.filter_by(artist=A1, title=T1)
             print(exist1)
-            exist2 = Songs.query.filter_by(artist=A2, title=T2).first()
+            exist2 = Songs.query.filter_by(artist=A2, title=T2)
             print(exist2)
             print(A2)
             print(T2)
