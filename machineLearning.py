@@ -1,9 +1,7 @@
 import pandas as pd
 from sklearn.feature_extraction import _stop_words
 import numpy as np
-from wordcloud import WordCloud
 from matplotlib import pyplot as plt
-from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
