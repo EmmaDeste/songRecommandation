@@ -108,7 +108,7 @@ def result():
         print("enter result page")
         print("ask song1")
         song1 = request.form.get('song1')
-        A1, T1 = song1.split(' - ')
+        A1, T1 = song1.split(' - ')  # careful about - in titles, to avoid "too many values to unpack (expected 2)" error
         print("ask song2")
         song2 = request.form.get('song2')
         A2, T2 = song2.split(' - ')
@@ -152,7 +152,7 @@ def result():
                 # code to analyse the preferencies
                 #
                 print("T3 NO exists")
-                list_song = get_song(T1, T2, None)
+                list_song = get_song(T1, T2)
                 song_recomended1 = list_song[0]
                 song_recomended2 = list_song[1]
                 song_recomended3 = list_song[2]
@@ -217,3 +217,19 @@ def table_to_df():
 
     df = pd.DataFrame(data)
     return df
+
+def emoji_identifier(df):
+    if df['dim1'] == 'Joy':
+        return True
+    if df['dim2'] == 'Anger':
+        return True
+    if df['dim3'] == 'Sadness':
+        return True
+    if df['dim4'] == 'Love':
+        return True
+    if df['dim5'] == 'Nostalgia':
+        return True
+    if df['dim6'] == 'Fear':
+        return True
+    if df['dim7'] == 'Hope':
+        return True
