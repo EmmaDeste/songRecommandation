@@ -24,7 +24,7 @@
     </header>
     <main>
         <div class="bg-image" style="background-image: url(/static/images/background.jpg);height:90vh">
-            <div class="container" id="content" style="height: 75vh;">
+            <div class="container" id="content" style="height: 65vh;">
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         <script>
@@ -66,9 +66,9 @@
                 </form>
             </div>
 
-            <div class="feedback" id="feedback_section" style="background-color: black; color: white; text-align: center; height: 20vh;">
-                <h5> You seem to be </font> </h5>
-                <h5> <font color="orange" size="14"> We recommand you to listen to these : ‍🔥 </font> </h5>
+            <div class="feedback" id="feedback_section" style="background-color: black; color: white; text-align: center; height: 35vh;">
+                <h5> You seem to be {{ emoji }} </h5>
+                <h5> <font color="orange" size="19"> We recommand you to listen to these : ‍🔥 </font> </h5>
                 <p>{{ reco1 }}<br>{{ reco2 }}<br>{{ reco3 }}</p>
                 <h6>Hope you like it ! Please try with other song if you want.</h6>
             </div>
