@@ -440,6 +440,7 @@ punctuation = ["'", "?", ".", "!", ","]
 
 df = pd.read_excel("NewSongs.xlsx")
 print(df)
+df = df.astype(str)
 list_dico_feeling = []
 for i in range(len(df)):
     song = str(df.loc[i, "lyrics"])
