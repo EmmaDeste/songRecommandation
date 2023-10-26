@@ -139,19 +139,19 @@ if __name__ == "__main__":
 def fill_db(pkl_file):
     try:
         with db.session.begin():
-            for i in df.index:
+            for i in pkl_file.index:
                 db.session.execute(
                     text("INSERT INTO songs (artist, title, album, lyrics, dim1, score1, dim2, score2, dim3, score3) VALUES (:artist, :title, :album, :lyrics, :dim1, :score1, :dim2, :score2, :dim3, :score3)"),
-                    {"artist" : df["Artist"][i], 
-                     "title" : df["Name "][i], 
-                     "album" : df["Album"][i], 
-                     "lyrics" : df["Lyrics"][i], 
-                     "dim1" : df["Dimension 1"][i], 
-                     "score1" : df["Score 1"][i], 
-                     "dim2" : df["Dimension 2"][i], 
-                     "score2" : df["Score 2"][i],  
-                     "dim3" : df["Dim 3"][i],  
-                     "score3" : df["Score 3"][i]
+                    {"artist" : pkl_file["Artist"][i], 
+                     "title" : pkl_file["Name "][i], 
+                     "album" : pkl_file["Album"][i], 
+                     "lyrics" : pkl_file["Lyrics"][i], 
+                     "dim1" : pkl_file["Dimension 1"][i], 
+                     "score1" : pkl_file["Score 1"][i], 
+                     "dim2" : pkl_file["Dimension 2"][i], 
+                     "score2" : pkl_file["Score 2"][i],  
+                     "dim3" : pkl_file["Dim 3"][i],  
+                     "score3" : pkl_file["Score 3"][i]
                     }
                 )
     except Exception as e:
