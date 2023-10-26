@@ -37,23 +37,6 @@ class Songs(db.Model):
     dim3 = db.Column(db.String(50), nullable=False)
     score3 = db.Column(db.Float, nullable=False)
 
-# TODO: à supprimer
-# thanks to https://pythonbasics.org/flask-sqlalchemy/
-# Class to store the data
-class SongsData:
-    # Configuration de la BDD
-    def __init__(self, artist, title, album, lyrics, dim1, score1, dim2, score2, dim3, score3):
-        self.artist = artist
-        self.title = title
-        self.album = album
-        self.lyrics = lyrics
-        self.dim1 = dim1
-        self.score1 = score1
-        self.dim2 = dim2
-        self.score2 = score2
-        self.dim3 = dim3
-        self.score3 = score3
-
 ################################################################ Vérification de la connexion à la base de données #################################################################
 with app.app_context():
     try:
@@ -128,22 +111,24 @@ def result():
             exist2 = Songs.query.filter_by(artist=A2, title=T2).first()
             exist3 = Songs.query.filter_by(artist=A3, title=T3).first()
             if (exist1 is not None) and (exist2 is not None) and (exist3 is not None):
-                #
-                # code to analyse the preferencies
-                #
                 print("T3 exists")
                 list_song = get_song(T1, T2, T3)
                 song_recomended1 = list_song[0]
                 song_recomended2 = list_song[1]
                 song_recomended3 = list_song[2]
-                # song_recomended1 = 'Camille - Le thé du matin'
 
-                #mood = emoji_identifier()
+                titres_donnes = [T1, T2,T3]
+                songs_info = db.session.query(Songs.title, Songs.dim1, Songs.score1, Songs.dim2, Songs.score2,
+                                              Songs.dim3, Songs.score3).filter(
+                    Songs.title.in_(titres_donnes)).all()
+                df = pd.DataFrame(songs_info, columns=['title', 'dim1', 'score1', 'dim2', 'score2', 'dim3', 'score3'])
+                print(df.head())
+                print(emoji_identifier(get_main_sentiment(df)))
+                emoji = emoji_identifier(get_main_sentiment(df))
 
                 return render_template('result.html', reco1=song_recomended1, reco2=song_recomended2,
-                                       reco3=song_recomended3, songs=songs)
-                # return render_template('result.html', reco1=song_recomended1, reco2=song_recomended2,
-                #                                        reco3=song_recomended3, songs=songs, mood=)
+                                       reco3=song_recomended3, songs=songs, emoji=emoji)
+
             else:
                 flash('One of the songs that you choose is not into our database', 'danger')
                 # Redirect to home page
@@ -151,17 +136,17 @@ def result():
         else:
             print("song3 n'existe pas")
             exist1 = Songs.query.filter_by(artist=A1, title=T1).first()
+            print(exist1)
             exist2 = Songs.query.filter_by(artist=A2, title=T2).first()
+            print(exist2)
+            print(A2)
+            print(T2)
             if (exist1 is not None) and (exist2 is not None):
-                #
-                # code to analyse the preferencies
-                #
                 print("T3 NO exists")
                 list_song = get_song(T1, T2)
                 song_recomended1 = list_song[0]
                 song_recomended2 = list_song[1]
                 song_recomended3 = list_song[2]
-                # song_recomended1 = 'Camille - Juste pour deux chansons'
 
                 titres_donnes = [T1, T2]
                 songs_info = db.session.query(Songs.title, Songs.dim1, Songs.score1, Songs.dim2, Songs.score2, Songs.dim3, Songs.score3).filter(
@@ -261,15 +246,15 @@ def emoji_identifier(sentiment):
     if sentiment == 'Joy':
         return "full of happiness 😄"
     if sentiment == 'Anger':
-        return "angry currently... 😡"
+        return "in an angry mood... 😡"
     if sentiment == 'Sadness':
         return "sad presently... 🥺"
     if sentiment == 'Love':
-        return "on the hype of love 🥰"
+        return "hyped up about love 🥰"
     if sentiment == 'Nostalgia':
         return "really nostalgic at the moment 😔"
     if sentiment == 'Fear':
-        return "afraid of something right now 😨"
+        return "afraid of something currently 😨"
     if sentiment == 'Hope':
         return "hopeful for the future, sounds great 🤞"
     else:
