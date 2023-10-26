@@ -120,16 +120,16 @@ def fill_db(df):
             for i in df.index:
                 db.session.execute(
                     text("INSERT INTO songs (artist, title, album, lyrics, dim1, score1, dim2, score2, dim3, score3) VALUES (:artist, :title, :album, :lyrics, :dim1, :score1, :dim2, :score2, :dim3, :score3)"),
-                    {"artist" : df["artist"][i], 
-                     "title" : df["title"][i], 
-                     "album" : df["album"][i], 
-                     "lyrics" : df["lyrics"][i], 
-                     "dim1" : df["dim1"][i], 
-                     "score1" : df["score1"][i], 
-                     "dim2" : df["dim2"][i], 
-                     "score2" : df["score2"][i],  
-                     "dim3" : df["dim3"][i],  
-                     "score3" : df["score3"][i]
+                    {"artist" : df["Artist"][i], 
+                     "title" : df["Name "][i], 
+                     "album" : df["Album"][i], 
+                     "lyrics" : df["Lyrics"][i], 
+                     "dim1" : df["Dimension 1"][i], 
+                     "score1" : df["Score 1"][i], 
+                     "dim2" : df["Dimension 2"][i], 
+                     "score2" : df["Score 2"][i],  
+                     "dim3" : df["Dim 3"][i],  
+                     "score3" : df["Score 3"][i]
                     }
                 )
     except Exception as e:

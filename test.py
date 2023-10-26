@@ -789,5 +789,7 @@ def get_song(songA, songB, songC = None):
             list_song = [song1, song2, song3]
             return(list_song)
 
-with open('DF Song', 'wb') as file_pickle:
+with open('DF Song.pkl', 'wb') as file_pickle:
     pickle.dump(final_df, file_pickle)
+
+print(final_df.columns)
