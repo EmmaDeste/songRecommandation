@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for,  flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import pickle as pk
+import pandas as pd
 from getsong import get_song
 
 app = Flask(__name__)
@@ -28,7 +29,7 @@ class Songs(db.Model):
     artist = db.Column(db.String(255), nullable=False)
     title = db.Column(db.String(255), primary_key=True, nullable=False)
     album = db.Column(db.String(255), nullable=False)
-    lyrics = db.Column(db.String(255), nullable=False)
+    lyrics = db.Column(db.Text, nullable=False)    # pour accepter les longs textes
     dim1 = db.Column(db.String(50), nullable=False)
     score1 = db.Column(db.Float, nullable=False)
     dim2 = db.Column(db.String(50), nullable=False)
@@ -36,7 +37,10 @@ class Songs(db.Model):
     dim3 = db.Column(db.String(50), nullable=False)
     score3 = db.Column(db.Float, nullable=False)
 
-    # thanks to https://pythonbasics.org/flask-sqlalchemy/
+# TODO: à supprimer
+# thanks to https://pythonbasics.org/flask-sqlalchemy/
+# Class to store the data
+class SongsData:
     # Configuration de la BDD
     def __init__(self, artist, title, album, lyrics, dim1, score1, dim2, score2, dim3, score3):
         self.artist = artist
@@ -81,9 +85,8 @@ def init():          # TODO: besoin d'une route ou déjà fait avec db.create_al
 def fill():
     try:
         with open('DF_Song.pkl', 'rb') as file:
-            data = pk.load(file)
-        df_songs = data
-        fill_db(df_songs)
+            data_songs = pk.load(file)
+        fill_db(data_songs)
 
         return "<p> FILL route </p>"
 
@@ -91,8 +94,9 @@ def fill():
         print("Erreur lors du remplissage de la BDD :", str(e))
 
 @app.route('/transform', methods=['GET'])  # TODO: est-ce vraiment une méthode get ?
-def transform():
+def transform():    # Rempli la classe Songs data
     try:
+        print(table_to_df())
         return "<p> TRANSFORM route </p>"
     except Exception as e:
         print("Erreur lors de la transformation en classe :", str(e))
@@ -175,17 +179,35 @@ def fill_db(df):
             for i in df.index:
                 db.session.execute(
                     text("INSERT INTO songs (artist, title, album, lyrics, dim1, score1, dim2, score2, dim3, score3) VALUES (:artist, :title, :album, :lyrics, :dim1, :score1, :dim2, :score2, :dim3, :score3)"),
-                    {"artist" : df["Artist"][i],
-                     "title" : df["Name "][i],
-                     "album" : df["Album"][i],
-                     "lyrics" : df["Lyrics"][i],
-                     "dim1" : df["Dimension 1"][i],
-                     "score1" : df["Score 1"][i],
-                     "dim2" : df["Dimension 2"][i],
-                     "score2" : df["Score 2"][i],
-                     "dim3" : df["Dim 3"][i],
-                     "score3" : df["Score 3"][i]
+                    {"artist": df["artist"][i],
+                     "title": df["title"][i],
+                     "album": df["album"][i],
+                     "lyrics": df["lyrics"][i],
+                     "dim1": df["dim1"][i],
+                     "score1": df["score1"][i],
+                     "dim2": df["dim2"][i],
+                     "score2": df["score2"][i],
+                     "dim3": df["dim3"][i],
+                     "score3": df["score3"][i]
                     }
                 )
     except Exception as e:
         print("Erreur dans le remplissage de la base de données:", str(e))
+
+def table_to_df():
+    songs_entries = Songs.query.all()  # <=> select *
+    # attribue les données au paramètre (colonne) correspondant
+    data = {
+        'artist': [entry.artist for entry in songs_entries],
+        'title': [entry.title for entry in songs_entries],
+        'album': [entry.album for entry in songs_entries],
+        'lyrics': [entry.lyrics for entry in songs_entries],
+        'dim1': [entry.dim1 for entry in songs_entries],
+        'score1': [entry.score1 for entry in songs_entries],
+        'dim2': [entry.dim2 for entry in songs_entries],
+        'score2': [entry.score2 for entry in songs_entries],
+        'dim3': [entry.dim3 for entry in songs_entries],
+        'score3': [entry.score3 for entry in songs_entries]}
+
+    df = pd.DataFrame(data)
+    return df
