@@ -53,8 +53,6 @@ def home():
         return render_template('home.html', songs = songs)
     except Exception as e:
         print("Erreur dans le fetch de la base de données :", str(e))
-    file = pk.load(open('DF_Song.pkl', 'rb'))
-    fill_db(file)
 
 @app.route('/init', methods = ['POST']) # TODO: besoin d'une méthode ?
 def init():
