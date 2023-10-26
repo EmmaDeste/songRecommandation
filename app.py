@@ -105,15 +105,23 @@ def transform():    # Rempli la classe Songs data
 @app.route('/result', methods=['POST'])
 def result():
     try:
+        print("enter result page")
+        print("ask song1")
         song1 = request.form.get('song1')
         A1, T1 = song1.split(' - ')
+        print("ask song2")
         song2 = request.form.get('song2')
         A2, T2 = song2.split(' - ')
+        print("ask song3")
         song3 = request.form.get('song3')
+
+        print("son1g", song1,"son2g", song2, "son3g", song3)
 
         songs = Songs.query.all()
 
+        print("avant les if")
         if song3:
+            print("song3 existe")
             A3, T3 = song3.split(' - ')
             # Verify that the songs are in the database :
             exist1 = Songs.query.filter_by(artist=A1, title=T1).first()
@@ -123,34 +131,34 @@ def result():
                 #
                 # code to analyse the preferencies
                 #
+                print("T3 exists")
                 list_song = get_song(T1, T2, T3) #penser à changer une fois l'importation de df faite
                 song_recomended1 = list_song[0]
                 song_recomended2 = list_song[1]
                 song_recomended3 = list_song[2]
                 # song_recomended1 = 'Camille - Le thé du matin'
-                # song_recomended2 = 'Camille - Le thé du matin'
-                # song_recomended3 = 'Camille - Le thé du matin'
-                return render_template('result.html', reco1 = song_recomended1, reco2 = song_recomended2, reco3 = song_recomended3, songs = songs)
+                return render_template('result.html', reco1=song_recomended1, reco2=song_recomended2,
+                                       reco3=song_recomended3, songs=songs)
             else:
                 flash('One of the songs that you choose is not into our database', 'danger')
                 # Redirect to home page
                 return redirect(url_for('home'))
         else:
+            print("song3 n'existe pas")
             exist1 = Songs.query.filter_by(artist=A1, title=T1).first()
             exist2 = Songs.query.filter_by(artist=A2, title=T2).first()
             if (exist1 is not None) and (exist2 is not None):
                 #
                 # code to analyse the preferencies
                 #
-                
-                list_song = get_song(T1, T2, T3 = None) #penser à changer une fois l'importation de df faite
+                print("T3 NO exists")
+                list_song = get_song(T1, T2, None)
                 song_recomended1 = list_song[0]
                 song_recomended2 = list_song[1]
                 song_recomended3 = list_song[2]
                 # song_recomended1 = 'Camille - Juste pour deux chansons'
-                # song_recomended2 = 'Camille - Juste pour deux chansons'
-                # song_recomended3 = 'Camille - Juste pour deux chansons'
-                return render_template('result.html', reco1 = song_recomended1, reco2 = song_recomended2, reco3 = song_recomended3, songs = songs)
+                return render_template('result.html', reco1=song_recomended1, reco2=song_recomended2,
+                                       reco3=song_recomended3, songs=songs)
             else:
                 flash('One of the songs that you choose is not into our database', 'danger')
                 # Redirect to home page

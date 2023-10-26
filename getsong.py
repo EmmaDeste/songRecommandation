@@ -2,8 +2,10 @@ import pickle as pk
 import pandas as pd
 final_df = pd.DataFrame(pk.load(open('DF_song.pkl', 'rb')))
 print(final_df.columns)
-def get_song(songA, songB, songC = None):
-    if songC == None:
+#def get_song(songA, songB, songC):
+def get_song(*args, **kwargs):
+    if len(args) == 2:
+        songA, songB = args
         if songA == songB:
             return songA
         else: 
@@ -57,17 +59,22 @@ def get_song(songA, songB, songC = None):
             idx1 = final_df.loc[final_df['score1'] == valeur_proche1]
             idx2 = final_df.loc[final_df['score2'] == valeur_proche2]
             idx3 = final_df.loc[final_df['score3'] == valeur_proche3]
-           
-            song1 = idx1['title']
-            song2 = idx2['title']
-            song3 = idx3['title']
-            
-            song1 = song1.values[0]
-            song2 = song2.values[0]
-            song3 = song3.values[0]
+
+            s1 = idx1['title'].values[0]
+            s2 = idx2['title'].values[0]
+            s3 = idx3['title'].values[0]
+
+            a1 = idx1['artist'].values[0]
+            a2 = idx2['artist'].values[0]
+            a3 = idx3['artist'].values[0]
+
+            song1 = a1 + ' - ' + s1
+            song2 = a2 + ' - ' + s2
+            song3 = a3 + ' - ' + s3
             list_song = [song1, song2, song3]
             return(list_song)
-    else:
+    elif len(args) == 3:
+        songA, songB, songC = args
         if songA == songB and songA == songC:
             return songA
         else: 
