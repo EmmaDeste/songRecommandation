@@ -53,7 +53,8 @@ def home():
         return render_template('home.html', songs = songs)
     except Exception as e:
         print("Erreur dans le fetch de la base de données :", str(e))
-
+    file = pk.load(open('DF_Song.pkl', 'rb'))
+    fill_db(file)
 
 @app.route('/init', methods = ['POST']) # TODO: besoin d'une méthode ?
 def init():
@@ -98,8 +99,7 @@ def result():
                 #
                 # code to analyse the preferencies
                 #
-                df = pk.load('Df_song.pkl')
-                list_song = get_song(df) #penser à changer une fois l'importation de df faite
+                list_song = get_song(T1, T2, T3) #penser à changer une fois l'importation de df faite
                 song_recomended1 = list_song[0]
                 song_recomended2 = list_song[1]
                 song_recomended3 = list_song[2]
@@ -119,8 +119,7 @@ def result():
                 # code to analyse the preferencies
                 #
                 
-                df = pk.load('Df_song.pkl')
-                list_song = get_song(df) #penser à changer une fois l'importation de df faite
+                list_song = get_song(T1, T2) #penser à changer une fois l'importation de df faite
                 song_recomended1 = list_song[0]
                 song_recomended2 = list_song[1]
                 song_recomended3 = list_song[2]
@@ -154,16 +153,16 @@ def fill_db(pkl_file):
             for i in pkl_file.index:
                 db.session.execute(
                     text("INSERT INTO songs (artist, title, album, lyrics, dim1, score1, dim2, score2, dim3, score3) VALUES (:artist, :title, :album, :lyrics, :dim1, :score1, :dim2, :score2, :dim3, :score3)"),
-                    {"artist" : pkl_file["Artist"][i], 
-                     "title" : pkl_file["Name "][i], 
-                     "album" : pkl_file["Album"][i], 
-                     "lyrics" : pkl_file["Lyrics"][i], 
-                     "dim1" : pkl_file["Dimension 1"][i], 
-                     "score1" : pkl_file["Score 1"][i], 
-                     "dim2" : pkl_file["Dimension 2"][i], 
-                     "score2" : pkl_file["Score 2"][i],  
-                     "dim3" : pkl_file["Dim 3"][i],  
-                     "score3" : pkl_file["Score 3"][i]
+                    {"artist" : pkl_file["artist"][i], 
+                     "title" : pkl_file["title"][i], 
+                     "album" : pkl_file["album"][i], 
+                     "lyrics" : pkl_file["lyrics"][i], 
+                     "dim1" : pkl_file["dim1"][i], 
+                     "score1" : pkl_file["score1"][i], 
+                     "dim2" : pkl_file["dim2"][i], 
+                     "score2" : pkl_file["score2"][i],  
+                     "dim3" : pkl_file["dim3"][i],  
+                     "score3" : pkl_file["score3"][i]
                     }
                 )
     except Exception as e:

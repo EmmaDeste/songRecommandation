@@ -439,9 +439,10 @@ hope_words = [
 punctuation = ["'", "?", ".", "!", ","]
 
 df = pd.read_excel("NewSongs.xlsx")
+print(df)
 list_dico_feeling = []
 for i in range(len(df)):
-    song = str(df.loc[i, "Lyrics"])
+    song = str(df.loc[i, "lyrics"])
     lyr_song = " ".join(word for word in song.split("||") if word not in punctuation and word not in _stop_words.ENGLISH_STOP_WORDS)
     cpt_joy = 0
     cpt_anger = 0
@@ -582,70 +583,68 @@ plt.tight_layout()
 
 
 final_df = df.copy()
-
 for i in range(len(df)):
     my_list = [df_copy.loc[i, 'Dim 1'], df_copy.loc[i, 'Dim 2'], df_copy.loc[i, 'Dim 3'], df_copy.loc[i, 'Dim 4'], df_copy.loc[i, 'Dim 5'], df_copy.loc[i, 'Dim 6'], df_copy.loc[i, 'Dim 7']]
     sl = sorted(my_list, key=abs, reverse=True)
-    final_df.loc[i,'Score 1'] = sl[0]
+    final_df.loc[i,'score1'] = sl[0]
     for col in df_copy.columns:
             if sl[0] == df_copy.loc[i, col]:
-                final_df.loc[i,'Dimension 1'] = col
-    final_df.loc[i,'Score 2'] = sl[1]
+                final_df.loc[i,'dim1'] = col
+    final_df.loc[i,'score2'] = sl[1]
     for col in df_copy.columns:
             if sl[1] == df_copy.loc[i, col]:
-                final_df.loc[i,'Dimension 2'] = col
-    final_df.loc[i,'Score 3'] = sl[2]
+                final_df.loc[i,'dim2'] = col
+    final_df.loc[i,'score3'] = sl[2]
     for col in df_copy.columns:
             if sl[2] == df_copy.loc[i, col]:
-                final_df.loc[i,'Dimension 3'] = col
+                final_df.loc[i,'dim3'] = col
 
-for i in range(len(final_df['Dimension 1'])):
-    if final_df.loc[i, 'Dimension 1'] == 'Dim 1':
-        final_df.loc[i, 'Dimension 1'] = 'Love'
-    elif final_df.loc[i, 'Dimension 1'] == 'Dim 2':
-        final_df.loc[i, 'Dimension 1'] = 'Sadness'
-    elif final_df.loc[i, 'Dimension 1'] == 'Dim 3':
-        final_df.loc[i, 'Dimension 1'] = 'Joy'
-    elif final_df.loc[i, 'Dimension 1'] == 'Dim 4':
-        final_df.loc[i, 'Dimension 1'] = 'Anger'
-    elif final_df.loc[i, 'Dimension 1'] == 'Dim 5':
-        final_df.loc[i, 'Dimension 1'] = 'Nostalgia'
-    elif final_df.loc[i, 'Dimension 1'] == 'Dim 6':
-        final_df.loc[i, 'Dimension 1'] = 'Hope'
-    elif final_df.loc[i, 'Dimension 1'] == 'Dim 7':
-        final_df.loc[i, 'Dimension 1'] = 'Fear'
+for i in range(len(final_df['dim1'])):
+    if final_df.loc[i, 'dim1'] == 'Dim 1':
+        final_df.loc[i, 'dim1'] = 'Love'
+    elif final_df.loc[i, 'dim1'] == 'Dim 2':
+        final_df.loc[i, 'dim1'] = 'Sadness'
+    elif final_df.loc[i, 'dim1'] == 'Dim 3':
+        final_df.loc[i, 'dim1'] = 'Joy'
+    elif final_df.loc[i, 'dim1'] == 'Dim 4':
+        final_df.loc[i, 'dim1'] = 'Anger'
+    elif final_df.loc[i, 'dim1'] == 'Dim 5':
+        final_df.loc[i, 'dim1'] = 'Nostalgia'
+    elif final_df.loc[i, 'dim1'] == 'Dim 6':
+        final_df.loc[i, 'dim1'] = 'Hope'
+    elif final_df.loc[i, 'dim1'] == 'Dim 7':
+        final_df.loc[i, 'dim1'] = 'Fear'
 
-for i in range(len(final_df['Dimension 2'])):
-    if final_df.loc[i, 'Dimension 2'] == 'Dim 1':
-        final_df.loc[i, 'Dimension 2'] = 'Love'
-    elif final_df.loc[i, 'Dimension 2'] == 'Dim 2':
-        final_df.loc[i, 'Dimension 2'] = 'Sadness'
-    elif final_df.loc[i, 'Dimension 2'] == 'Dim 3':
-        final_df.loc[i, 'Dimension 2'] = 'Joy'
-    elif final_df.loc[i, 'Dimension 2'] == 'Dim 4':
-        final_df.loc[i, 'Dimension 2'] = 'Anger'
-    elif final_df.loc[i, 'Dimension 2'] == 'Dim 5':
-        final_df.loc[i, 'Dimension 2'] = 'Nostalgia'
-    elif final_df.loc[i, 'Dimension 2'] == 'Dim 6':
-        final_df.loc[i, 'Dimension 2'] = 'Hope'
-    elif final_df.loc[i, 'Dimension 2'] == 'Dim 7':
-        final_df.loc[i, 'Dimension 2'] = 'Fear'
-
-for i in range(len(final_df['Dimension 3'])):
-    if final_df.loc[i, 'Dimension 3'] == 'Dim 1':
-        final_df.loc[i, 'Dimension 3'] = 'Love'
-    elif final_df.loc[i, 'Dimension 3'] == 'Dim 2':
-        final_df.loc[i, 'Dimension 3'] = 'Sadness'
-    elif final_df.loc[i, 'Dimension 3'] == 'Dim 3':
-        final_df.loc[i, 'Dimension 3'] = 'Joy'
-    elif final_df.loc[i, 'Dimension 3'] == 'Dim 4':
-        final_df.loc[i, 'Dimension 3'] = 'Anger'
-    elif final_df.loc[i, 'Dimension 3'] == 'Dim 5':
-        final_df.loc[i, 'Dimension 3'] = 'Nostalgia'
-    elif final_df.loc[i, 'Dimension 3'] == 'Dim 6':
-        final_df.loc[i, 'Dimension 3'] = 'Hope'
-    elif final_df.loc[i, 'Dimension 3'] == 'Dim 7':
-        final_df.loc[i, 'Dimension 3'] = 'Fear'
+for i in range(len(final_df['dim2'])):
+    if final_df.loc[i, 'dim2'] == 'Dim 1':
+        final_df.loc[i, 'dim2'] = 'Love'
+    elif final_df.loc[i, 'dim2'] == 'Dim 2':
+        final_df.loc[i, 'dim2'] = 'Sadness'
+    elif final_df.loc[i, 'dim2'] == 'Dim 3':
+        final_df.loc[i, 'dim2'] = 'Joy'
+    elif final_df.loc[i, 'dim2'] == 'Dim 4':
+        final_df.loc[i, 'dim2'] = 'Anger'
+    elif final_df.loc[i, 'dim2'] == 'Dim 5':
+        final_df.loc[i, 'dim2'] = 'Nostalgia'
+    elif final_df.loc[i, 'dim2'] == 'Dim 6':
+        final_df.loc[i, 'dim2'] = 'Hope'
+    elif final_df.loc[i, 'dim2'] == 'Dim 7':
+        final_df.loc[i, 'dim2'] = 'Fear'
+for i in range(len(final_df['dim3'])):
+    if final_df.loc[i, 'dim3'] == 'Dim 1':
+        final_df.loc[i, 'dim3'] = 'Love'
+    elif final_df.loc[i, 'dim3'] == 'Dim 2':
+        final_df.loc[i, 'dim3'] = 'Sadness'
+    elif final_df.loc[i, 'dim3'] == 'Dim 3':
+        final_df.loc[i, 'dim3'] = 'Joy'
+    elif final_df.loc[i, 'dim3'] == 'Dim 4':
+        final_df.loc[i, 'dim3'] = 'Anger'
+    elif final_df.loc[i, 'dim3'] == 'Dim 5':
+        final_df.loc[i, 'dim3'] = 'Nostalgia'
+    elif final_df.loc[i, 'dim3'] == 'Dim 6':
+        final_df.loc[i, 'dim3'] = 'Hope'
+    elif final_df.loc[i, 'dim3'] == 'Dim 7':
+        final_df.loc[i, 'dim3'] = 'Fear'
 # Dim 1 : Love
 # Dim 2 : Sadness
 # Dim 3 : Joy
@@ -657,137 +656,137 @@ print(final_df)
 
 
 
-def get_song(songA, songB, songC = None):
-    if songC == None:
-        if songA == songB:
-            return songA
-        else: 
-            A = final_df.loc[final_df['Name '] == songA]
-            B = final_df.loc[final_df["Name "] == songB]
+# def get_song(songA, songB, songC = None):
+#     if songC == None:
+#         if songA == songB:
+#             return songA
+#         else: 
+#             A = final_df.loc[final_df['Name '] == songA]
+#             B = final_df.loc[final_df["Name "] == songB]
             
-            avg_dim_1 = (float(A['Score 1']) + float(B['Score 1']))/2
-            avg_dim_2 = (float(A['Score 2']) + float(B['Score 2']))/2
-            avg_dim_3 = (float(A['Score 3']) + float(B['Score 3']))/2
+#             avg_dim_1 = (float(A['Score 1']) + float(B['Score 1']))/2
+#             avg_dim_2 = (float(A['Score 2']) + float(B['Score 2']))/2
+#             avg_dim_3 = (float(A['Score 3']) + float(B['Score 3']))/2
             
-            valeur_proche1 = None
-            valeur_proche2 = None
-            valeur_proche3 = None
-            diff_abs1 = float('inf')
-            diff_abs2 = float('inf')
-            diff_abs3 = float('inf')
+#             valeur_proche1 = None
+#             valeur_proche2 = None
+#             valeur_proche3 = None
+#             diff_abs1 = float('inf')
+#             diff_abs2 = float('inf')
+#             diff_abs3 = float('inf')
             
-            list_score1 = final_df['Score 1'].tolist()
-            list_score2 = final_df['Score 2'].tolist()
-            list_score3 = final_df['Score 3'].tolist()
-            for i in range(len(list_score1)):
-                val = float(list_score1[i])
-                diff = abs(avg_dim_1 - float(val))
-                if diff < diff_abs1:
-                    valeur_proche1 = float(val)
-                    diff_abs1 = diff
-            rmv1 = None
-            for i in range(len(list_score1)):
-                if list_score1[i] == valeur_proche1:
-                    rmv1 = i
-            del list_score2[rmv1]
-            for i in range(len(list_score2)):
-                val = float(list_score2[i])
-                diff = abs(avg_dim_2 - float(i))
-                if diff < diff_abs2:
-                    valeur_proche2 = float(val)
-                    diff_abs2 = diff
-            rmv2 = None
-            for i in range(len(list_score2)):
-                if list_score2[i] == valeur_proche2:
-                    rmv2 = i
-            del list_score3[rmv1]
-            del list_score3[rmv2]
-            for i in range(len(list_score3)):
-                val = float(list_score3[i])
-                diff = abs(avg_dim_3 - float(i))
-                if diff < diff_abs3:
-                    valeur_proche3 = float(val)
-                    diff_abs3 = diff
+#             list_score1 = final_df['Score 1'].tolist()
+#             list_score2 = final_df['Score 2'].tolist()
+#             list_score3 = final_df['Score 3'].tolist()
+#             for i in range(len(list_score1)):
+#                 val = float(list_score1[i])
+#                 diff = abs(avg_dim_1 - float(val))
+#                 if diff < diff_abs1:
+#                     valeur_proche1 = float(val)
+#                     diff_abs1 = diff
+#             rmv1 = None
+#             for i in range(len(list_score1)):
+#                 if list_score1[i] == valeur_proche1:
+#                     rmv1 = i
+#             del list_score2[rmv1]
+#             for i in range(len(list_score2)):
+#                 val = float(list_score2[i])
+#                 diff = abs(avg_dim_2 - float(i))
+#                 if diff < diff_abs2:
+#                     valeur_proche2 = float(val)
+#                     diff_abs2 = diff
+#             rmv2 = None
+#             for i in range(len(list_score2)):
+#                 if list_score2[i] == valeur_proche2:
+#                     rmv2 = i
+#             del list_score3[rmv1]
+#             del list_score3[rmv2]
+#             for i in range(len(list_score3)):
+#                 val = float(list_score3[i])
+#                 diff = abs(avg_dim_3 - float(i))
+#                 if diff < diff_abs3:
+#                     valeur_proche3 = float(val)
+#                     diff_abs3 = diff
             
-            idx1 = final_df.loc[final_df['Score 1'] == valeur_proche1]
-            idx2 = final_df.loc[final_df['Score 2'] == valeur_proche2]
-            idx3 = final_df.loc[final_df['Score 3'] == valeur_proche3]
+#             idx1 = final_df.loc[final_df['Score 1'] == valeur_proche1]
+#             idx2 = final_df.loc[final_df['Score 2'] == valeur_proche2]
+#             idx3 = final_df.loc[final_df['Score 3'] == valeur_proche3]
            
-            song1 = idx1['Name ']
-            song2 = idx2['Name ']
-            song3 = idx3['Name ']
+#             song1 = idx1['Name ']
+#             song2 = idx2['Name ']
+#             song3 = idx3['Name ']
             
-            song1 = song1.values[0]
-            song2 = song2.values[0]
-            song3 = song3.values[0]
-            list_song = [song1, song2, song3]
-            return(list_song)
-    else:
-        if songA == songB and songA == songC:
-            return songA
-        else: 
-            A = final_df.loc[final_df['Name '] == songA]
-            B = final_df.loc[final_df["Name "] == songB]
-            C = final_df.loc[final_df["Name "] == songC]
+#             song1 = song1.values[0]
+#             song2 = song2.values[0]
+#             song3 = song3.values[0]
+#             list_song = [song1, song2, song3]
+#             return(list_song)
+#     else:
+#         if songA == songB and songA == songC:
+#             return songA
+#         else: 
+#             A = final_df.loc[final_df['Name '] == songA]
+#             B = final_df.loc[final_df["Name "] == songB]
+#             C = final_df.loc[final_df["Name "] == songC]
             
-            avg_dim_1 = (float(A['Score 1']) + float(B['Score 1']) + float(C['Score 1']))/3
-            avg_dim_2 = (float(A['Score 2']) + float(B['Score 2']) + float(C['Score 2']))/3
-            avg_dim_3 = (float(A['Score 3']) + float(B['Score 3']) + float(C['Score 3']))/3
+#             avg_dim_1 = (float(A['Score 1']) + float(B['Score 1']) + float(C['Score 1']))/3
+#             avg_dim_2 = (float(A['Score 2']) + float(B['Score 2']) + float(C['Score 2']))/3
+#             avg_dim_3 = (float(A['Score 3']) + float(B['Score 3']) + float(C['Score 3']))/3
             
-            valeur_proche1 = None
-            valeur_proche2 = None
-            valeur_proche3 = None
-            diff_abs1 = float('inf')
-            diff_abs2 = float('inf')
-            diff_abs3 = float('inf')
+#             valeur_proche1 = None
+#             valeur_proche2 = None
+#             valeur_proche3 = None
+#             diff_abs1 = float('inf')
+#             diff_abs2 = float('inf')
+#             diff_abs3 = float('inf')
             
-            list_score1 = final_df['Score 1'].tolist()
-            list_score2 = final_df['Score 2'].tolist()
-            list_score3 = final_df['Score 3'].tolist()
-            for i in range(len(list_score1)):
-                val = float(list_score1[i])
-                diff = abs(avg_dim_1 - float(val))
-                if diff < diff_abs1:
-                    valeur_proche1 = float(val)
-                    diff_abs1 = diff
-            rmv1 = None
-            for i in range(len(list_score1)):
-                if list_score1[i] == valeur_proche1:
-                    rmv1 = i
-            del list_score2[rmv1]
-            for i in range(len(list_score2)):
-                val = float(list_score2[i])
-                diff = abs(avg_dim_2 - float(i))
-                if diff < diff_abs2:
-                    valeur_proche2 = float(val)
-                    diff_abs2 = diff
-            rmv2 = None
-            for i in range(len(list_score2)):
-                if list_score2[i] == valeur_proche2:
-                    rmv2 = i
-            del list_score3[rmv1]
-            del list_score3[rmv2]
-            for i in range(len(list_score3)):
-                val = float(list_score3[i])
-                diff = abs(avg_dim_3 - float(i))
-                if diff < diff_abs3:
-                    valeur_proche3 = float(val)
-                    diff_abs3 = diff
+#             list_score1 = final_df['Score 1'].tolist()
+#             list_score2 = final_df['Score 2'].tolist()
+#             list_score3 = final_df['Score 3'].tolist()
+#             for i in range(len(list_score1)):
+#                 val = float(list_score1[i])
+#                 diff = abs(avg_dim_1 - float(val))
+#                 if diff < diff_abs1:
+#                     valeur_proche1 = float(val)
+#                     diff_abs1 = diff
+#             rmv1 = None
+#             for i in range(len(list_score1)):
+#                 if list_score1[i] == valeur_proche1:
+#                     rmv1 = i
+#             del list_score2[rmv1]
+#             for i in range(len(list_score2)):
+#                 val = float(list_score2[i])
+#                 diff = abs(avg_dim_2 - float(i))
+#                 if diff < diff_abs2:
+#                     valeur_proche2 = float(val)
+#                     diff_abs2 = diff
+#             rmv2 = None
+#             for i in range(len(list_score2)):
+#                 if list_score2[i] == valeur_proche2:
+#                     rmv2 = i
+#             del list_score3[rmv1]
+#             del list_score3[rmv2]
+#             for i in range(len(list_score3)):
+#                 val = float(list_score3[i])
+#                 diff = abs(avg_dim_3 - float(i))
+#                 if diff < diff_abs3:
+#                     valeur_proche3 = float(val)
+#                     diff_abs3 = diff
             
-            idx1 = final_df.loc[final_df['Score 1'] == valeur_proche1]
-            idx2 = final_df.loc[final_df['Score 2'] == valeur_proche2]
-            idx3 = final_df.loc[final_df['Score 3'] == valeur_proche3]
+#             idx1 = final_df.loc[final_df['Score 1'] == valeur_proche1]
+#             idx2 = final_df.loc[final_df['Score 2'] == valeur_proche2]
+#             idx3 = final_df.loc[final_df['Score 3'] == valeur_proche3]
             
             
-            song1 = idx1['Name ']
-            song2 = idx2['Name ']
-            song3 = idx3['Name ']
+#             song1 = idx1['Name ']
+#             song2 = idx2['Name ']
+#             song3 = idx3['Name ']
             
-            song1 = song1.values[0]
-            song2 = song2.values[0]
-            song3 = song3.values[0]
-            list_song = [song1, song2, song3]
-            return(list_song)
+#             song1 = song1.values[0]
+#             song2 = song2.values[0]
+#             song3 = song3.values[0]
+#             list_song = [song1, song2, song3]
+#             return(list_song)
 
 with open('DF_Song.pkl', 'wb') as file_pickle:
     pickle.dump(final_df, file_pickle)
