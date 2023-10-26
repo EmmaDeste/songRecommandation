@@ -124,12 +124,16 @@ def get_song(songA, songB, songC = None):
             idx3 = final_df.loc[final_df['score3'] == valeur_proche3]
             
             
-            song1 = idx1['title']
-            song2 = idx2['title']
-            song3 = idx3['title']
+            s1 = idx1['title'].values[0]
+            s2 = idx2['title'].values[0]
+            s3 = idx3['title'].values[0]
             
-            song1 = song1.values[0]
-            song2 = song2.values[0]
-            song3 = song3.values[0]
+            a1 = idx1['artist'].values[0]
+            a2 = idx2['artist'].values[0]
+            a3 = idx3['artist'].values[0]
+            
+            song1 = a1 + ' - ' + s1
+            song2 = a2 + ' - ' + s2
+            song3 = a3 + ' - ' + a3
             list_song = [song1, song2, song3]
             return(list_song)
