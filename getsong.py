@@ -1,16 +1,19 @@
 import pickle as pk
 import pandas as pd
-final_df = pd.DataFrame(pk.load(open('DF_song.pkl', 'rb')))
-print(final_df.columns)
+df = pd.DataFrame(pk.load(open('DF_song.pkl', 'rb')))
+print(df.columns)
 #def get_song(songA, songB, songC):
 def get_song(*args, **kwargs):
     if len(args) == 2:
         songA, songB = args
         if songA == songB:
-            return songA
+            return [songA, None, None]
         else: 
-            A = final_df.loc[final_df['title'] == songA]
-            B = final_df.loc[final_df["title"] == songB]
+            A = df[df['title'] == songA]
+            df2 = df.drop(A.index)
+            
+            B = df2[df2["title"] == songB]
+            final_df = df.drop(B.index)
             
             avg_dim_1 = (float(A['score1']) + float(B['score1']))/2
             avg_dim_2 = (float(A['score2']) + float(B['score2']))/2
@@ -76,11 +79,35 @@ def get_song(*args, **kwargs):
     elif len(args) == 3:
         songA, songB, songC = args
         if songA == songB and songA == songC:
-            return songA
-        else: 
-            A = final_df.loc[final_df['title'] == songA]
-            B = final_df.loc[final_df["title"] == songB]
-            C = final_df.loc[final_df["title"] == songC]
+            return [songA, None, None]
+        else:
+            if songA == songB and songA != songC:
+                A = df[df['title'] == songA]
+                df2 = df.drop(A.index)
+                
+                C = df2[df2["title"] == songC]
+                final_df = df2.drop(C.index)
+            elif songA != songB and songA == songC:
+                A = df[df['title'] == songA]
+                df2 = df.drop(A.index)
+                
+                B = df2[df2["title"] == songB]
+                final_df = df2.drop(C.index)
+            elif songA != songB and songB == songC:
+                A = df[df['title'] == songA]
+                df2 = df.drop(A.index)
+                
+                B = df2[df2["title"] == songB]
+                final_df = df2.drop(C.index)
+            else:
+                A = df[df['title'] == songA]
+                df2 = df.drop(A.index)
+                
+                B = df2[df2["title"] == songB]
+                df3 = df2.drop(B.index)
+                
+                C = df3[df3["title"] == songC]
+                final_df = df3.drop(C.index)
             
             avg_dim_1 = (float(A['score1']) + float(B['score1']) + float(C['score1']))/3
             avg_dim_2 = (float(A['score2']) + float(B['score2']) + float(C['score2']))/3
