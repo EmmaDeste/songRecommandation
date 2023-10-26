@@ -75,8 +75,10 @@ def result():
                 #
                 # code to analyse the preferencies
                 #
-                song_recomended = 'Camille - Le thé du matin'
-                return render_template('result.html', reco = song_recomended, songs = songs)
+                song_recomended1 = 'Camille - Le thé du matin'
+                song_recomended2 = 'Camille - Le thé du matin'
+                song_recomended3 = 'Camille - Le thé du matin'
+                return render_template('result.html', reco1 = song_recomended1, reco2 = song_recomended2, reco3 = song_recomended3, songs = songs)
             else:
                 flash('One of the songs that you choose is not into our database', 'danger')
                 # Redirect to home page
@@ -88,8 +90,10 @@ def result():
                 #
                 # code to analyse the preferencies
                 #
-                song_recomended = 'Camille - Juste pour deux chansons'
-                return render_template('result.html', reco = song_recomended, songs = songs)
+                song_recomended1 = 'Camille - Juste pour deux chansons'
+                song_recomended2 = 'Camille - Juste pour deux chansons'
+                song_recomended3 = 'Camille - Juste pour deux chansons'
+                return render_template('result.html', reco1 = song_recomended1, reco2 = song_recomended2, reco3 = song_recomended3, songs = songs)
             else:
                 flash('One of the songs that you choose is not into our database', 'danger')
                 # Redirect to home page
@@ -106,3 +110,27 @@ def test():
 
 if __name__ == "__main__":
     app.run()
+
+#####################################################################Fill the DB########################################################################""
+#Creer d'abord la db avec toutes les col (vérifier que oms dans le fill_db = noms dcol dans db) + l'appeler songs normalement sinon modifier dans le insert et dans la classe le nom de la table
+# verifier que les mêmes noms de col dans db
+def fill_db(df):
+    try:
+        with db.session.begin():
+            for i in df.index:
+                db.session.execute(
+                    text("INSERT INTO songs (artist, title, album, lyrics, dim1, score1, dim2, score2, dim3, score3) VALUES (:artist, :title, :album, :lyrics, :dim1, :score1, :dim2, :score2, :dim3, :score3)"),
+                    {"artist" : df["artist"][i], 
+                     "title" : df["title"][i], 
+                     "album" : df["album"][i], 
+                     "lyrics" : df["lyrics"][i], 
+                     "dim1" : df["dim1"][i], 
+                     "score1" : df["score1"][i], 
+                     "dim2" : df["dim2"][i], 
+                     "score2" : df["score2"][i],  
+                     "dim3" : df["dim3"][i],  
+                     "score3" : df["score3"][i]
+                    }
+                )
+    except Exception as e:
+        print("Erreur dans le remplissage de la base de données:", str(e))
