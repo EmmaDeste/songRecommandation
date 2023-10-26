@@ -13,7 +13,7 @@ def get_song(*args, **kwargs):
             df2 = df.drop(A.index)
             
             B = df2[df2["title"] == songB]
-            final_df = df.drop(B.index)
+            final_df = df2.drop(B.index)
             
             avg_dim_1 = (float(A['score1']) + float(B['score1']))/2
             avg_dim_2 = (float(A['score2']) + float(B['score2']))/2
