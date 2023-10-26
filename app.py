@@ -54,6 +54,28 @@ def home():
         print("Erreur dans le fetch de la base de données :", str(e))
 
 
+@app.route('/init', methods = ['POST']) # TODO: besoin d'une méthode ?
+def init():
+    try:
+        return "<p> INIT route </p>"
+    except Exception as e:
+        print("Erreur lors de l'initialisation de la base de données :", str(e))
+
+@app.route('/fill', methods = ['GET']) # TODO: est-ce vraiment une méthode get ?
+def fill():
+    try:
+        return "<p> FILL route </p>"
+    except Exception as e:
+        print("Erreur lors du remplissage de la base de données :", str(e))
+
+@app.route('/transform', methods = ['GET']) # TODO: est-ce vraiment une méthode get ?
+def transform():
+    try:
+        return "<p> TRANSFORM route </p>"
+    except Exception as e:
+        print("Erreur lors de la transformation en DataFrame :", str(e))
+
+
 @app.route('/result', methods = ['POST'])
 def result():
     try :
@@ -114,7 +136,7 @@ if __name__ == "__main__":
 #####################################################################Fill the DB########################################################################""
 #Creer d'abord la db avec toutes les col (vérifier que oms dans le fill_db = noms dcol dans db) + l'appeler songs normalement sinon modifier dans le insert et dans la classe le nom de la table
 # verifier que les mêmes noms de col dans db
-def fill_db(df):
+def fill_db(pkl_file):
     try:
         with db.session.begin():
             for i in df.index:
