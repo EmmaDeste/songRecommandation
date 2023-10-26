@@ -791,5 +791,3 @@ def get_song(songA, songB, songC = None):
 
 with open('DF_Song.pkl', 'wb') as file_pickle:
     pickle.dump(final_df, file_pickle)
-
-print(final_df.columns)

@@ -2,7 +2,8 @@ from flask import Flask
 from flask import Flask, render_template, request, jsonify, redirect, url_for,  flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
-
+import pickle as pk
+from getsong import get_song
 app = Flask(__name__)
 
 # Set the secret key
@@ -75,9 +76,14 @@ def result():
                 #
                 # code to analyse the preferencies
                 #
-                song_recomended1 = 'Camille - Le thé du matin'
-                song_recomended2 = 'Camille - Le thé du matin'
-                song_recomended3 = 'Camille - Le thé du matin'
+                df = pk.load('Df_song.pkl')
+                list_song = get_song(df) #penser à changer une fois l'importation de df faite
+                song_recomended1 = list_song[0]
+                song_recomended2 = list_song[1]
+                song_recomended3 = list_song[2]
+                # song_recomended1 = 'Camille - Le thé du matin'
+                # song_recomended2 = 'Camille - Le thé du matin'
+                # song_recomended3 = 'Camille - Le thé du matin'
                 return render_template('result.html', reco1 = song_recomended1, reco2 = song_recomended2, reco3 = song_recomended3, songs = songs)
             else:
                 flash('One of the songs that you choose is not into our database', 'danger')
@@ -90,9 +96,15 @@ def result():
                 #
                 # code to analyse the preferencies
                 #
-                song_recomended1 = 'Camille - Juste pour deux chansons'
-                song_recomended2 = 'Camille - Juste pour deux chansons'
-                song_recomended3 = 'Camille - Juste pour deux chansons'
+                
+                df = pk.load('Df_song.pkl')
+                list_song = get_song(df) #penser à changer une fois l'importation de df faite
+                song_recomended1 = list_song[0]
+                song_recomended2 = list_song[1]
+                song_recomended3 = list_song[2]
+                # song_recomended1 = 'Camille - Juste pour deux chansons'
+                # song_recomended2 = 'Camille - Juste pour deux chansons'
+                # song_recomended3 = 'Camille - Juste pour deux chansons'
                 return render_template('result.html', reco1 = song_recomended1, reco2 = song_recomended2, reco3 = song_recomended3, songs = songs)
             else:
                 flash('One of the songs that you choose is not into our database', 'danger')
@@ -112,7 +124,7 @@ if __name__ == "__main__":
     app.run()
 
 #####################################################################Fill the DB########################################################################""
-#Creer d'abord la db avec toutes les col (vérifier que oms dans le fill_db = noms dcol dans db) + l'appeler songs normalement sinon modifier dans le insert et dans la classe le nom de la table
+#Creer d'abord la db avec toutes les col (vérifier que noms dans le fill_db = noms dcol dans db) + l'appeler songs normalement sinon modifier dans le insert et dans la classe le nom de la table
 # verifier que les mêmes noms de col dans db
 def fill_db(df):
     try:
