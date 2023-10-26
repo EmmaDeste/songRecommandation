@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import pickle as pk
 from getsong import get_song
+
 app = Flask(__name__)
 
 # Set the secret key
@@ -36,13 +37,28 @@ class Songs(db.Model):
     dim3 = db.Column(db.String(50), nullable=False)
     score3 = db.Column(db.Float, nullable=False)
 
+    # thanks to https://pythonbasics.org/flask-sqlalchemy/
+    # Configuration de la BDD
+    def __init__(self, artist, title, album, lyrics, dim1, score1, dim2, score2, dim3, score3):
+        self.artist = artist
+        self.title = title
+        self.album = album
+        self.lyrics = lyrics
+        self.dim1 = dim1
+        self.score1 = score1
+        self.dim2 = dim2
+        self.score2 = score2
+        self.dim3 = dim3
+        self.score3 = score3
+
 ################################################################ Vérification de la connexion à la base de données #################################################################
 with app.app_context():
     try:
         db.session.execute(text("SELECT 1"))  # Utilisez text("SELECT 1")
+        db.create_all()  # Creation de la BDD
         print("La connexion à la base de données a été établie avec succès.")
     except Exception as e:
-        print("Erreur lors de la connexion à la base de données:", str(e))
+        print("Erreur lors de la connexion à la BDD:", str(e))
 
 
 ################################################################ Routage pour les pages #################################################################
@@ -50,33 +66,33 @@ with app.app_context():
 def home():
     try:
         songs = Songs.query.all()
-        return render_template('home.html', songs = songs)
+        return render_template('home.html', songs=songs)
     except Exception as e:
-        print("Erreur dans le fetch de la base de données :", str(e))
+        print("Erreur dans le fetch de la BDD :", str(e))
 
 @app.route('/init', methods = ['POST']) # TODO: besoin d'une méthode ?
 def init():
     try:
         return "<p> INIT route </p>"
     except Exception as e:
-        print("Erreur lors de l'initialisation de la base de données :", str(e))
+        print("Erreur lors de l'initialisation de la BDD :", str(e))
 
-@app.route('/fill', methods = ['GET']) # TODO: est-ce vraiment une méthode get ?
+@app.route('/fill', methods=['GET'])  # TODO: est-ce vraiment une méthode get ?
 def fill():
     try:
         return "<p> FILL route </p>"
     except Exception as e:
-        print("Erreur lors du remplissage de la base de données :", str(e))
+        print("Erreur lors du remplissage de la BDD :", str(e))
 
-@app.route('/transform', methods = ['GET']) # TODO: est-ce vraiment une méthode get ?
+@app.route('/transform', methods=['GET'])  # TODO: est-ce vraiment une méthode get ?
 def transform():
     try:
         return "<p> TRANSFORM route </p>"
     except Exception as e:
-        print("Erreur lors de la transformation en DataFrame :", str(e))
+        print("Erreur lors de la transformation en classe :", str(e))
 
 
-@app.route('/result', methods = ['POST'])
+@app.route('/result', methods=['POST'])
 def result():
     try :
         song1 = request.form.get('song1')
